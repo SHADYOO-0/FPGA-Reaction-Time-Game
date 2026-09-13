@@ -74,7 +74,56 @@ _ Real-time FPGA implementation
 
 * Verilog HDL
 * Intel Quartus Prime
-* ModelSim *(optional for simulation)*
+* Icarus Verilog (simulation)
+* GTKWave (waveform viewing)
+* ModelSim / Questa (optional alternative simulator)
+
+---
+
+## Simulation
+
+A self-checking testbench with 7 tests covering reset, state transitions, and reaction-time measurements of 0ms, 1ms, and 10ms.
+
+**Icarus Verilog:**
+```bash
+iverilog -o simulation src/FPGA_reaction_timer_game.v tb/tb_FPGA_reaction_timer_game.v
+vvp simulation
+```
+Expected output : 
+
+```bash
+Test 1 passed
+Test 2 passed
+Test 3 passed: captured_ms=0
+Test 4 passed
+Test 5 passed: captured_ms=1
+Test 6 passed: captured_ms=10
+Test 7 passed: show_result=1
+
+Simulation completed
+Passed: 7
+Failed: 0
+```
+
+---
+
+
+**Images — the three PNGs from `doc/`:**
+
+## FSM Design
+
+![FSM diagram](doc/FSM_diagram.png)
+
+## Waveforms
+
+Measurement start : `start_pulse` triggers the FSM and activates the LED :
+
+![Measurement start](doc/waveform_start.png)
+
+Measured result : After a 10ms reaction time , `captured_ms`= 0xA and `show_result` is high:
+
+![Measured result](doc/waveform_result_10ms.png)
+
 
 ---
 
@@ -103,6 +152,16 @@ Open the project in **Quartus Prime**:
 
 ---
 
+## Project Structure
+
+| Path | Contents |
+|---|---|
+| `rtl/` | RTL design |
+| `tb/`  | Self-checking testbench |
+| `doc/` | FSM diagram and waveforms |
+
+---
+
 ##  Concepts Implemented
 
 * Finite State Machine (FSM)
@@ -115,7 +174,7 @@ Open the project in **Quartus Prime**:
 
 ---
 
-##  Author
+##  Authors
 
 **Nidhal Antar**
 
